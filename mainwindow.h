@@ -6,6 +6,11 @@
 #include <QFile>
 #include <QThread>
 
+#include <QDebug>
+#include <QScreen>
+#include <QResizeEvent>
+#include <QGuiApplication>
+
 class inputReadThread : public QThread
 {
     Q_OBJECT
@@ -38,6 +43,7 @@ public:
     ~MainWindow();
 
 protected:
+    void resizeEvent(QResizeEvent *event);
     void closeEvent(QCloseEvent *event) override;
 
 private slots:

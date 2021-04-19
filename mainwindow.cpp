@@ -90,6 +90,37 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
+    Q_UNUSED(event);
+
+    qDebug() << endl << "Window Resize:" << this->size();
+
+    // 屏幕长宽
+    QList<QScreen*> scr = QGuiApplication::screens();
+    QRect rect = scr.at(0)->geometry();
+    quint32 desktop_wid = rect.width();
+    quint32 desktop_hei = rect.height();
+
+    // 根据不同屏幕分辨率, 调节字体大小
+    QString style_str;
+    quint32 font_size = 10;
+    if (desktop_wid >= 1280 && desktop_hei >= 720) {
+        qDebug() << "1280*720";
+        font_size = 28;
+        style_str = QString("font: %1pt \"WenQuanYi Micro Hei Mono\";").arg(font_size);
+    } else if (desktop_wid >= 800 && desktop_hei >= 600) {
+        qDebug() << "800*600";
+        font_size = 10;
+        style_str = QString("font: 10pt \"WenQuanYi Micro Hei Mono\";").arg(font_size);
+    }
+
+    ui->comboBox->setStyleSheet(style_str);
+    ui->pushButton->setStyleSheet(style_str);
+    ui->pushButton_2->setStyleSheet(style_str);
+    ui->textEdit->setStyleSheet(style_str);
+}
+
 void MainWindow::get_input(QString str)
 {
     ui->textEdit->append(str);
